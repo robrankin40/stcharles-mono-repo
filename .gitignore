@@ -2,3 +2,4 @@ node_modules/
 packages/backend/node_modules
 packages/react-admin/node_modules
 packages/react-native-mobile/node_modules
+backend/.env
