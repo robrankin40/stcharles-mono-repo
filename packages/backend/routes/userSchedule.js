@@ -73,12 +73,21 @@ router.route('/:scheduleId').put(authenticateUser, async (req, res) => {
     if (schedule.uId !== user.id) {
       res.status(401).json({ status: 0, message: 'Access denied' });
     }
-    const { title, body, startAt, duration } = req.body;
-    if (title) {
-      schedule.title = title;
+    const { customerName, customerPhone, vehicleType, vin, requiredServiceContent, startAt, duration } = req.body;
+    if (customerName) {
+      schedule.customerName = customerName;
     }
-    if (body) {
-      schedule.body = body;
+    if (customerPhone) {
+      schedule.customerPhone = customerPhone;
+    }
+    if (vehicleType) {
+      schedule.vehicleType = vehicleType;
+    }
+    if (vin) {
+      schedule.vin = vin;
+    }
+    if (requiredServiceContent) {
+      schedule.requiredServiceContent = requiredServiceContent;
     }
     if (startAt) {
       schedule.startAt = startAt;
@@ -106,7 +115,7 @@ router.route('/:scheduleId').delete(authenticateUser, async (req, res) => {
       res.status(401).json({ status: 0, message: 'Access denied' });
     }
     await UserSchedule.findByIdAndDelete(scheduleId)
-    res.status(200).json({ status: 1, message: 'Successfully remove the schedule' })
+    res.status(200).json({ status: 1, message: 'Successfully remove the schedule', scheduleId })
   } catch (err) {
     res.status(400).json({ status: 0, message: 'Unexpected error' });
   }
