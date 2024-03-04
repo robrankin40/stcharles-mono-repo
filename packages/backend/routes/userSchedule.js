@@ -41,11 +41,16 @@ router.route('/:scheduleId').get(authenticateUser, async (req, res) => {
 
 router.route('/').post(authenticateUser, async (req, res) => {
   const { user } = res.locals;
-  const { title, body, startAt, duration } = req.body;
+  const { customerName, customerPhone, vehicleType, vin, requiredServiceContent, startAt, duration } = req.body;
   const schedule = new UserSchedule();
   schedule.uId = user.id;
-  schedule.title = title;
-  schedule.body = body;
+  schedule.customerName = customerName;
+  schedule.customerPhone = customerPhone;
+  if (vehicleType) {
+    schedule.vehicleType = vehicleType;
+  }
+  schedule.vin = vin;
+  schedule.requiredServiceContent = requiredServiceContent;
   schedule.startAt = startAt;
   schedule.duration = duration;
   try {

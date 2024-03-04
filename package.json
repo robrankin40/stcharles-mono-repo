@@ -9,7 +9,6 @@
   ],
   "scripts": {
     "start-backend": "cd packages/backend && yarn start",
-    "start-admin": "cd packages/react-admin && yarn start",
-    "start-web": "yarn --parallel start-backend start-admin"
+    "start-admin": "cd packages/react-admin && yarn start"
   }
 }

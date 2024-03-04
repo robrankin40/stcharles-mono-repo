@@ -6,13 +6,25 @@ const UserScheduleSchema = new Schema({
     type: String,
     required: true,
   },
-  title: {
+  customerName: {
     type: String,
     required: true,
   },
-  body: {
+  customerPhone: {
+    type: String,
+    required: true,
+  },
+  vehicleType: {
     type: String,
     required: false,
+  },
+  vin: {
+    type: String,
+    required: true,
+  },
+  requiredServiceContent: {
+    type: String,
+    required: true,
   },
   startAt: {
     type: Date,
