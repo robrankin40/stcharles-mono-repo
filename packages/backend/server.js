@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import authRouter from './routes/auth.js';
 import usersRouter from './routes/users.js';
 import userScheduleRouter from './routes/userSchedule.js';
@@ -18,6 +19,8 @@ const adminLastName = process.env.ADMIN_USER_LAST_NAME;
 const adminEmail = process.env.ADMIN_USER_EMAIL;
 const adminPassword = process.env.ADMIN_USER_PASSWORD;
 
+app.use(cors());
+
 app.get('/', (req, res) => {
   res.send('<h1>Hello, Express.js Server!</h1>');
 });
@@ -25,7 +28,6 @@ app.get('/', (req, res) => {
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/schedule', userScheduleRouter);
-
 
 // Specify the port to listen on
 export const startServer =  async () => {

@@ -8,9 +8,9 @@ const router = express.Router();
 // Define a route
 router.route('/').get(authenticateUser, adminProtected, async (req, res) => {
   try {
-    const { start = 0, limit = 20 } = req.query;
+    const { start = 0 } = req.query;
     const total = await User.find({role: { '$ne': 'admin' }}).countDocuments();
-    const users = await User.find({}).skip(start).limit(limit);
+    const users = await User.find({role: { '$ne': 'admin' }}).skip(start);
     res.status(200).json({
       users,
       total,
@@ -70,7 +70,7 @@ router.route('/:userId').delete(authenticateUser, adminProtected, async (req, re
   const { userId } = req.params;
   try {
     await User.findByIdAndDelete(userId);
-    res.status(200).json({ status: 1, message: 'User removed' });
+    res.status(200).json({ status: 1, message: 'User removed', userId });
   } catch (err) {
     res.status(400).json({ status: 0, message: 'Unexpected error' });
   }
