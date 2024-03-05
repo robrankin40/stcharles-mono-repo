@@ -78,18 +78,31 @@ router.route('/:userId').delete(authenticateUser, adminProtected, async (req, re
 
 router.route('/update-password').put(authenticateUser, async (req, res) => {
   const { user } = res.locals;
-  const {password} = req.body;
-  if (user.status === 'password-generated') {
-    user.status = 'active';
-  }
-  user.password = password;
-  try {
-    await user.save();
-    res.status(200).json({
-      status: 1,
-      message: 'Password updated'
+  const {oldPassword, password} = req.body;
+  const isPasswordValid = await user.validatePassword(oldPassword)
+  if (isPasswordValid) {
+    if (user.status === 'password-generated') {
+      user.status = 'active';
+    }
+    user.password = password;
+    try {
+      await user.save();
+      res.status(200).json({
+        status: 1,
+        message: 'Password updated'
+      })
+    } catch (error) {
+      res.status(400).json({
+        status: 0,
+        message: 'Error while updating password'
+      })
+    }
+  } else {
+    res.status(400).json({
+      status: 0,
+      message: 'Password mismatch'
     })
-  } catch (error) {}
+  }
 })
 
 export default router;

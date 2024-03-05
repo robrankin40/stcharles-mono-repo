@@ -40,7 +40,7 @@ router.post('/login', async (req, res, next) => {
 router.post('/join', async (req, res) => {
   const { email, inviteCode } = req.body;
   try {
-    const user = await User.findOne({email, inviteCode});
+    const user = await User.findOne({email: sanitizeEmail(email), inviteCode});
     if (user) {
       if (user.status === 'active') {
         return res.status(401).json({ status: 0, message: 'You already finish setup your account.' })
